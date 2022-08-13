@@ -1,5 +1,5 @@
 import {Node, useEffect, useRef, useState} from 'react';
-import {Animated, Button, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {Animated, StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
 
 const Header = (): Node => {

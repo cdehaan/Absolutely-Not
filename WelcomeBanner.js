@@ -1,5 +1,5 @@
 import {Node, useEffect, useRef, useState} from 'react';
-import {Animated, Button, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {Animated, Button, StyleSheet, Text, View, Dimensions, Pressable} from 'react-native';
 import React from 'react';
 
 const WelcomeBanner = (props): Node => {
@@ -50,6 +50,7 @@ const WelcomeBanner = (props): Node => {
             width: bannerWidth,
             borderTopWidth: bannerBorder,
             borderBottomWidth: bannerBorder,
+            backgroundColor: '#fff',
             alignSelf: 'center',
             overflow: 'hidden',
         },
@@ -60,13 +61,11 @@ const WelcomeBanner = (props): Node => {
     });
 
     return (
-        <View>
         <Animated.View style={styles.banner}>
-            <View style={{backgroundColor: "#fff"}}>
+            <Pressable onPress={() => {ShrinkBanner();}}>
             <Text numberOfLines={1} ellipsizeMode='clip' style={[{minWidth: windowMaxDimensions.width*0.5}, styles.titleText]}>{props.title}</Text>
-            </View>
+            </Pressable>
         </Animated.View>
-        </View>
     );
 };
   
