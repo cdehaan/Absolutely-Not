@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, { createContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import type {Node} from 'react';
 import {
   SafeAreaView,
@@ -24,6 +24,7 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Header from './Header';
+import WelcomeBanner from './WelcomeBanner';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -74,6 +75,7 @@ const App: () => Node = () => {
     mainView: {
       height: windowMaxDimensions.height,
       overflow: 'hidden',
+      justifyContent: 'space-evenly',
     },
     sectionContainer: {
       marginTop: 32,
@@ -102,12 +104,18 @@ const App: () => Node = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
+      <View
         contentInsetAdjustmentBehavior="automatic"
         style={[backgroundStyle, styles.debug, styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
         <Header />
-      </ScrollView>
+        <WelcomeBanner>
+          <Text>New Game</Text>
+        </WelcomeBanner>
+        <WelcomeBanner>
+          <Text>Join Game</Text>
+        </WelcomeBanner>
+      </View>
     </SafeAreaView>
   );
 };
