@@ -57,7 +57,9 @@ const Header = (): Node => {
             paddingBottom: windowMaxDimensions.height / 20,
         },
         headerText: {
-            fontSize: windowMaxDimensions.height / 20,
+            fontSize: windowMaxDimensions.height / 15,
+            /*fontFamily: 'monospace',*/
+            fontFamily: 'DancingScript-Bold',
             alignSelf: 'center',
             color: "#fff",
         },
