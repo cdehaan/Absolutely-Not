@@ -14,6 +14,12 @@ const Header = (): Node => {
         );
         return () => subscription?.remove();
     });
+
+    useEffect(() => {
+        setTimeout(() => {
+            ExpandHeader();            
+        }, 500);
+    });
   
     const headerAnim = useRef(new Animated.Value(0)).current;
 
@@ -56,7 +62,7 @@ const Header = (): Node => {
     });
 
     return (
-        <View>
+        <View style={styles.debug}>
         <Animated.View style={styles.header}>
             <View style={{width: windowMaxDimensions.width, backgroundColor: "#336699"}}>
             <Text>
@@ -70,5 +76,5 @@ const Header = (): Node => {
     );
 };
   
-  export default Header;
+export default Header;
           
