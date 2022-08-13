@@ -2,7 +2,7 @@ import {Node, useEffect, useRef, useState} from 'react';
 import {Animated, Button, StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
 
-const WelcomeBanner = (): Node => {
+const WelcomeBanner = (props): Node => {
     const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
     useEffect(() => {
         const subscription = Dimensions.addEventListener( "change",
@@ -31,7 +31,14 @@ const WelcomeBanner = (): Node => {
         }).start();
     };
 
-
+    useEffect(() => {
+        setTimeout(() => {
+            ExpandBanner();            
+        }, (500 + props.delay));
+    });
+  
+    const bannerWidth = bannerAnim.interpolate({ inputRange:[0, 1], outputRange:['0%', '90%'] });
+    const bannerBorder  = bannerAnim.interpolate({ inputRange:[0, 1], outputRange:[0,     2] });
     const styles = StyleSheet.create({
         debug: {
             backgroundColor: "powderblue",
@@ -39,15 +46,24 @@ const WelcomeBanner = (): Node => {
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
         },
+        banner: {
+            width: bannerWidth,
+            borderTopWidth: bannerBorder,
+            borderBottomWidth: bannerBorder,
+            alignSelf: 'center',
+            overflow: 'hidden',
+        },
+        titleText: {
+            alignSelf: 'center',
+            fontSize: windowMaxDimensions.height / 20,
+        }
     });
 
     return (
-        <View style={styles.debug}>
+        <View>
         <Animated.View style={styles.banner}>
-            <View style={{width: windowMaxDimensions.width, backgroundColor: "#336699"}}>
-            <Text>
-                This is my header.
-            </Text>
+            <View style={{backgroundColor: "#fff"}}>
+            <Text numberOfLines={1} ellipsizeMode='clip' style={[{minWidth: windowMaxDimensions.width*0.5}, styles.titleText]}>{props.title}</Text>
             </View>
         </Animated.View>
         </View>

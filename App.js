@@ -106,13 +106,13 @@ const App: () => Node = () => {
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <View
         contentInsetAdjustmentBehavior="automatic"
-        style={[backgroundStyle, styles.debug, styles.mainView]}
+        style={[backgroundStyle, styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
         <Header />
-        <WelcomeBanner>
+        <WelcomeBanner delay={200} title='New Game'>
           <Text>New Game</Text>
         </WelcomeBanner>
-        <WelcomeBanner>
+        <WelcomeBanner delay={400} title='Join Game'>
           <Text>Join Game</Text>
         </WelcomeBanner>
       </View>

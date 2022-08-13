@@ -44,14 +44,22 @@ const Header = (): Node => {
     const headerWidth   = headerAnim.interpolate({ inputRange:[0, 1], outputRange:['0%', '100%'] });
 
     const styles = StyleSheet.create({
-        header: {
+        headerView: {
             opacity: headerOpacity,
             width: headerWidth,
-            borderWidth: headerBorder,
-            height: 100,
+            borderTopWidth: headerBorder,
+            borderBottomWidth: headerBorder,
+            borderColor: '#b3cce6',
             alignSelf: 'center',
             overflow: 'hidden',
-            backgroundColor: 'beige',
+            backgroundColor: '#6699cc',
+            paddingTop: windowMaxDimensions.height / 20,
+            paddingBottom: windowMaxDimensions.height / 20,
+        },
+        headerText: {
+            fontSize: windowMaxDimensions.height / 20,
+            alignSelf: 'center',
+            color: "#fff",
         },
         debug: {
             backgroundColor: "powderblue",
@@ -62,19 +70,19 @@ const Header = (): Node => {
     });
 
     return (
-        <View style={styles.debug}>
-        <Animated.View style={styles.header}>
-            <View style={{width: windowMaxDimensions.width, backgroundColor: "#336699"}}>
-            <Text>
-                This is my header.
-            </Text>
+        <View>
+        <Animated.View style={styles.headerView}>
+            <View style={{width: windowMaxDimensions.width, alignSelf: 'center', backgroundColor: "#336699"}}>
+                <Text style={styles.headerText}>Absolutely Not</Text>
             </View>
         </Animated.View>
-        <Button title="Fade In Header" onPress={ExpandHeader} />
-        <Button title="Fade Out Header" onPress={ShrinkHeader} />
         </View>
     );
 };
+/*
+        <Button title="Fade In Header" onPress={ExpandHeader} />
+        <Button title="Fade Out Header" onPress={ShrinkHeader} />
+*/
   
 export default Header;
           
