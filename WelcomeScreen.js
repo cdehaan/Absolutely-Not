@@ -1,5 +1,5 @@
-import {Node, useEffect, useRef, useState} from 'react';
-import {Animated, Button, StyleSheet, Text, View, Dimensions, Pressable} from 'react-native';
+import {Node, useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
 
 import Header from './Header';
@@ -31,13 +31,9 @@ const WelcomeScreen = (props): Node => {
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
-            <Header />
-            <WelcomeBanner delay={200} title='New Game'>
-                <Text>New Game</Text>
-            </WelcomeBanner>
-            <WelcomeBanner delay={400} title='Join Game'>
-                <Text>Join Game</Text>
-            </WelcomeBanner>
+            <Header anim={props.anim} delay={200} />
+            <WelcomeBanner anim={props.anim} delay={200} display={props.display} title='New Game'/>
+            <WelcomeBanner anim={props.anim} delay={400} display={props.display} title='Join Game'/>
         </View>
     );
 };

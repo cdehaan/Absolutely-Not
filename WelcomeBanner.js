@@ -14,31 +14,22 @@ const WelcomeBanner = (props): Node => {
         return () => subscription?.remove();
     });
 
-    const bannerAnim = useRef(new Animated.Value(0)).current;
-    function ExpandBanner() {
-        Animated.timing(bannerAnim, {
-            toValue: 1,
-            duration: 600,
-            useNativeDriver: false,
-        }).start();
-    };
+    const bannerAnim = props.anim;
 
-    function ShrinkBanner() {
+    function HideWelcome() {
         Animated.timing(bannerAnim, {
             toValue: 0,
-            duration: 600,
+            duration: 1000,
             useNativeDriver: false,
         }).start();
-    };
 
-    useEffect(() => {
         setTimeout(() => {
-            ExpandBanner();            
-        }, (500 + props.delay));
-    });
-  
-    const bannerWidth = bannerAnim.interpolate({ inputRange:[0, 1], outputRange:['0%', '90%'] });
-    const bannerBorder  = bannerAnim.interpolate({ inputRange:[0, 1], outputRange:[0,     2] });
+            props.display(false);
+        }, 1000);
+    }
+
+    const bannerWidth = bannerAnim.interpolate({ inputRange:[0, 1],  outputRange:['0%', '90%'] });
+    const bannerBorder = bannerAnim.interpolate({ inputRange:[0, 1], outputRange:[ 0,    2] });
     const styles = StyleSheet.create({
         debug: {
             backgroundColor: "powderblue",
@@ -62,7 +53,7 @@ const WelcomeBanner = (props): Node => {
 
     return (
         <Animated.View style={styles.banner}>
-            <Pressable onPress={() => {ShrinkBanner();}}>
+            <Pressable onPress={() => {HideWelcome()}}>
             <Text numberOfLines={1} ellipsizeMode='clip' style={[{minWidth: windowMaxDimensions.width*0.5}, styles.titleText]}>{props.title}</Text>
             </Pressable>
         </Animated.View>

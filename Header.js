@@ -2,7 +2,7 @@ import {Node, useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
 
-const Header = (): Node => {
+const Header = (props): Node => {
     const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
 
     useEffect(() => {
@@ -15,29 +15,7 @@ const Header = (): Node => {
         return () => subscription?.remove();
     });
 
-    useEffect(() => {
-        setTimeout(() => {
-            ExpandHeader();            
-        }, 500);
-    });
-  
-    const headerAnim = useRef(new Animated.Value(0)).current;
-
-    function ExpandHeader() {
-        Animated.timing(headerAnim, {
-            toValue: 1,
-            duration: 600,
-            useNativeDriver: false,
-        }).start();
-    };
-
-    function ShrinkHeader() {
-        Animated.timing(headerAnim, {
-            toValue: 0,
-            duration: 600,
-            useNativeDriver: false,
-        }).start();
-    };
+    const headerAnim = props.anim;
 
     const headerOpacity = headerAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5,   1] });
     const headerBorder  = headerAnim.interpolate({ inputRange:[0, 1], outputRange:[0,     5] });
