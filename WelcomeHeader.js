@@ -36,7 +36,6 @@ const Header = (props): Node => {
         },
         headerText: {
             fontSize: windowMaxDimensions.height / 15,
-            /*fontFamily: 'monospace',*/
             fontFamily: 'DancingScript-Bold',
             alignSelf: 'center',
             color: "#fff",
@@ -59,10 +58,6 @@ const Header = (props): Node => {
         </View>
     );
 };
-/*
-        <Button title="Fade In Header" onPress={ExpandHeader} />
-        <Button title="Fade Out Header" onPress={ShrinkHeader} />
-*/
   
 export default Header;
           

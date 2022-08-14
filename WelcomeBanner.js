@@ -17,6 +17,12 @@ const WelcomeBanner = (props): Node => {
     const bannerAnim = props.anim;
 
     function HideWelcome() {
+        props.setScreens((prevScreens) => {
+            const newScreens = {...prevScreens};
+            newScreens[props.targetScreen].display = true;
+            return newScreens;
+        });
+
         Animated.timing(bannerAnim, {
             toValue: 0,
             duration: 1000,
@@ -26,7 +32,7 @@ const WelcomeBanner = (props): Node => {
         setTimeout(() => {
             props.setScreens((prevScreens) => {
                 const newScreens = {...prevScreens};
-                newScreens.welcome = false;
+                newScreens.welcome.display = false;
                 return newScreens;
             });
         }, 1000);
@@ -35,12 +41,6 @@ const WelcomeBanner = (props): Node => {
     const bannerWidth  = bannerAnim.interpolate({ inputRange:[0, props.start, props.end, 1], outputRange:['0%', '0%', '90%', '90%'] });
     const bannerBorder = bannerAnim.interpolate({ inputRange:[0, props.start, props.end, 1], outputRange:[ 0, 0, 2, 2] });
     const styles = StyleSheet.create({
-        debug: {
-            backgroundColor: "powderblue",
-            borderWidth: 5,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-        },
         banner: {
             width: bannerWidth,
             borderTopWidth: bannerBorder,

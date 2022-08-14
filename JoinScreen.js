@@ -1,13 +1,9 @@
 import {Node, useEffect, useState} from 'react';
-import {StyleSheet, Dimensions, Animated} from 'react-native';
+import {StyleSheet, Dimensions, Animated, Text} from 'react-native';
 import React from 'react';
 
-import WelcomeHeader from './WelcomeHeader';
-import WelcomeBanner from './WelcomeBanner';
-
-const WelcomeScreen = (props): Node => {
+const JoinScreen = (props): Node => {
     const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
-
     useEffect(() => {
         const subscription = Dimensions.addEventListener( "change",
         ({ window }) =>
@@ -26,21 +22,19 @@ const WelcomeScreen = (props): Node => {
           height: windowMaxDimensions.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
-          backgroundColor: '#336699',
+          backgroundColor: '#996633',
           opacity: screenOpacity,
         },
     });
-    
+
     return (
         <Animated.View
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
-            <WelcomeHeader anim={screenAnim} start={0}   end={1}   />
-            <WelcomeBanner anim={screenAnim} start={0.2} end={0.8} setScreens={props.setScreens} title='New Game'  targetScreen='lobby'/>
-            <WelcomeBanner anim={screenAnim} start={0.4} end={1}   setScreens={props.setScreens} title='Join Game' targetScreen='join'/>
+            <Text>Join Screen</Text>
         </Animated.View>
     );
 };
   
-export default WelcomeScreen;
+export default JoinScreen;
