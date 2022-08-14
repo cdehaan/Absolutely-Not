@@ -10,18 +10,16 @@ import type {Node} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
 
-import { Colors, } from 'react-native/Libraries/NewAppScreen';
-
 import WelcomeScreen from './WelcomeScreen';
 
 
 const App: () => Node = () => {
 
     const welcomeAnim = useRef(new Animated.Value(0)).current;
-    const [welcomeDisplay, setWelcomeDisplay] = useState(true);
+    const [displayedScreens, setDisplayedScreens] = useState({welcome: true, lobby: false});
 
     const isDarkMode = useColorScheme() === 'dark';
-    const backgroundStyle = { backgroundColor: isDarkMode ? Colors.darker : Colors.lighter, };
+    const backgroundStyle = { backgroundColor: isDarkMode ? "#336699" : "#a2bfdd", };
 
     useEffect(() => {
         Animated.timing(welcomeAnim, {
@@ -36,7 +34,7 @@ const App: () => Node = () => {
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            {welcomeDisplay ? <WelcomeScreen anim={welcomeAnim} display={setWelcomeDisplay} /> : null}
+            {displayedScreens.welcome ? <WelcomeScreen anim={welcomeAnim} setScreens={setDisplayedScreens} /> : null}
         </SafeAreaView>
     );
 };

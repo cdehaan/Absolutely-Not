@@ -1,8 +1,8 @@
 import {Node, useEffect, useState} from 'react';
-import {StyleSheet, Text, View, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Dimensions, Animated} from 'react-native';
 import React from 'react';
 
-import Header from './Header';
+import WelcomeHeader from './WelcomeHeader';
 import WelcomeBanner from './WelcomeBanner';
 
 const WelcomeScreen = (props): Node => {
@@ -17,24 +17,29 @@ const WelcomeScreen = (props): Node => {
         );
         return () => subscription?.remove();
     });
+
+    const screenAnim = props.anim;
+    const screenOpacity = screenAnim.interpolate({ inputRange:[0, 0.5, 1], outputRange:[0, 1, 1] });
   
     const styles = StyleSheet.create({
         mainView: {
           height: windowMaxDimensions.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
+          backgroundColor: '#336699',//'#ecf2f8'
+          opacity: screenOpacity,
         },
     });
     
     return (
-        <View
+        <Animated.View
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
-            <Header        anim={props.anim} start={0}   end={1}   />
-            <WelcomeBanner anim={props.anim} start={0.2} end={0.8} display={props.display} title='New Game'/>
-            <WelcomeBanner anim={props.anim} start={0.4} end={1}   display={props.display} title='Join Game'/>
-        </View>
+            <WelcomeHeader anim={props.anim} start={0}   end={1}   />
+            <WelcomeBanner anim={props.anim} start={0.2} end={0.8} setScreens={props.setScreens} title='New Game'/>
+            <WelcomeBanner anim={props.anim} start={0.4} end={1}   setScreens={props.setScreens} title='Join Game'/>
+        </Animated.View>
     );
 };
   
