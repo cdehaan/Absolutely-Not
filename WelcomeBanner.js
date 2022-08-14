@@ -28,8 +28,8 @@ const WelcomeBanner = (props): Node => {
         }, 1000);
     }
 
-    const bannerWidth = bannerAnim.interpolate({ inputRange:[0, 1],  outputRange:['0%', '90%'] });
-    const bannerBorder = bannerAnim.interpolate({ inputRange:[0, 1], outputRange:[ 0,    2] });
+    const bannerWidth  = bannerAnim.interpolate({ inputRange:[0, props.start, props.end, 1], outputRange:['0%', '0%', '90%', '90%'] });
+    const bannerBorder = bannerAnim.interpolate({ inputRange:[0, props.start, props.end, 1], outputRange:[ 0, 0, 2, 2] });
     const styles = StyleSheet.create({
         debug: {
             backgroundColor: "powderblue",

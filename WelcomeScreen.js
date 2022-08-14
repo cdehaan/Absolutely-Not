@@ -31,9 +31,9 @@ const WelcomeScreen = (props): Node => {
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
-            <Header anim={props.anim} delay={200} />
-            <WelcomeBanner anim={props.anim} delay={200} display={props.display} title='New Game'/>
-            <WelcomeBanner anim={props.anim} delay={400} display={props.display} title='Join Game'/>
+            <Header        anim={props.anim} start={0}   end={1}   />
+            <WelcomeBanner anim={props.anim} start={0.2} end={0.8} display={props.display} title='New Game'/>
+            <WelcomeBanner anim={props.anim} start={0.4} end={1}   display={props.display} title='Join Game'/>
         </View>
     );
 };
