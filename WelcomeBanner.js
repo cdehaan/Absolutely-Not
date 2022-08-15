@@ -1,5 +1,5 @@
-import {Node, useEffect, useRef, useState} from 'react';
-import {Animated, Button, StyleSheet, Text, View, Dimensions, Pressable} from 'react-native';
+import {Node, useEffect, useState} from 'react';
+import {Animated, StyleSheet, Text, Dimensions, Pressable} from 'react-native';
 import React from 'react';
 
 const WelcomeBanner = (props): Node => {
@@ -17,25 +17,25 @@ const WelcomeBanner = (props): Node => {
     const bannerAnim = props.anim;
 
     function HideWelcome() {
-        props.setScreens((prevScreens) => {
-            const newScreens = {...prevScreens};
-            newScreens[props.targetScreen].display = true;
-            return newScreens;
-        });
-
         Animated.timing(bannerAnim, {
             toValue: 0,
-            duration: 1000,
+            duration: 500,
             useNativeDriver: false,
         }).start();
 
         setTimeout(() => {
             props.setScreens((prevScreens) => {
                 const newScreens = {...prevScreens};
+                newScreens[props.targetScreen].display = true;
+                return newScreens;
+            });
+
+            props.setScreens((prevScreens) => {
+                const newScreens = {...prevScreens};
                 newScreens.welcome.display = false;
                 return newScreens;
             });
-        }, 1000);
+        }, 500);
     }
 
     const bannerWidth  = bannerAnim.interpolate({ inputRange:[0, props.start, props.end, 1], outputRange:['0%', '0%', '90%', '90%'] });
