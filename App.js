@@ -35,26 +35,6 @@ const App: () => Node = () => {
         }).start();
     }, []);
 
-    useEffect(() => {
-        return;
-        Object.keys(screensState).forEach(key => {
-            if(screensState[key] === true) {
-                Animated.timing(welcomeAnim, {
-                    toValue: 1,
-                    duration: 1000,
-                    useNativeDriver: false,
-                }).start();
-            } else {
-                Animated.timing(welcomeAnim, {
-                    toValue: 1,
-                    duration: 1000,
-                    useNativeDriver: false,
-                }).start();
-            }
-        });
-        
-    }, [screensState]);
-
 
     return (
         <SafeAreaView style={backgroundStyle}>
