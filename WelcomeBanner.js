@@ -17,6 +17,8 @@ const WelcomeBanner = (props): Node => {
     const bannerAnim = props.anim;
 
     function HideWelcome() {
+        props.BannerAction();
+
         Animated.timing(bannerAnim, {
             toValue: 0,
             duration: 500,

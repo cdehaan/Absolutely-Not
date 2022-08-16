@@ -5,8 +5,9 @@
 
 import type {Node} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
+import { Text, TextInput, View, Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
 import { io } from "socket.io-client";
+import ChatStatus from './ChatStatus';
 
 import JoinScreen from './JoinScreen';
 import LobbyScreen from './LobbyScreen';
@@ -23,6 +24,9 @@ const App: () => Node = () => {
     const [myData, setMyData] = useState({playerKey: null, name: null, secret: null, socket: null});
     const [competitors, setCompetitors] = useState([]);
 
+    // reference set for socketRef using useRef hook
+    const socketRef = useRef();
+
     const isDarkMode = useColorScheme() === 'dark';
     const backgroundStyle = { backgroundColor: isDarkMode ? "#336699" : "#a2bfdd", };
 
@@ -33,37 +37,52 @@ const App: () => Node = () => {
 
         // Create a socket with the server
         ConnectSocket();
+
+        // Disconnect on unload
+        return () => { socketRef.current.disconnect(); };
     }, []);
 
     function CreateGame() {
+        socketRef.current.emit('create game', {playerName: "Chris"});
+    }
 
+    function JoinGame() {
+        socketRef.current.emit('join game', {gameCode: "ABCDE"});
     }
 
     function ConnectSocket() {
-        socket = io();
-        socket.on('connect',              function()    { SocketConnected();        });
-        socket.on('disconnect',           function()    { SocketDisconnected();     });
+        socketRef.current = io('http://192.168.0.18:2525');
+
+        socketRef.current.on('connect',              function()    { SocketConnected();        });
+        socketRef.current.on('disconnect',           function()    { SocketDisconnected();     });
     
         // All the game events we have to listen for
-        socket.on("game created",         function(msg) { GameCreated(msg);         });
+        socketRef.current.on("game created",         function(msg) { GameCreated(msg);         });
+        socketRef.current.on("game joined",          function(msg) { GameJoined(msg);          });
     }
 
     function SocketConnected() {
-        alert("Connected");
+        console.log("Connected");
     }
 
     function SocketDisconnected() {
-
+        console.log("Disconnected");
     }
 
     function GameCreated(msg) {
+        console.log("Created");
+        console.log(msg);
+    }
 
+    function GameJoined(msg) {
+        console.log("Joined");
+        console.log(msg);
     }
 
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} /> : null}
+            {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} CreateGame={CreateGame} JoinGame={JoinGame} /> : null}
             {screensState.lobby.display   ? <LobbyScreen   screensState={screensState.lobby}   setScreens={setScreenState} /> : null}
             {screensState.join.display    ? <JoinScreen    screensState={screensState.join}    setScreens={setScreenState} /> : null}
         </SafeAreaView>

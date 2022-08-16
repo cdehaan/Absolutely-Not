@@ -40,8 +40,8 @@ const WelcomeScreen = (props): Node => {
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
             <WelcomeHeader anim={screenAnim} start={0}   end={1}   />
-            <WelcomeBanner anim={screenAnim} start={0.2} end={0.8} setScreens={props.setScreens} title='New Game'  targetScreen='lobby'/>
-            <WelcomeBanner anim={screenAnim} start={0.4} end={1}   setScreens={props.setScreens} title='Join Game' targetScreen='join'/>
+            <WelcomeBanner anim={screenAnim} start={0.2} end={0.8} setScreens={props.setScreens} title='New Game'  targetScreen='lobby' BannerAction={props.CreateGame}/>
+            <WelcomeBanner anim={screenAnim} start={0.4} end={1}   setScreens={props.setScreens} title='Join Game' targetScreen='join'  BannerAction={props.JoinGame}/>
         </Animated.View>
     );
 };
