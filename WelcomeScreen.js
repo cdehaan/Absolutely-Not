@@ -18,6 +18,9 @@ const WelcomeScreen = (props): Node => {
         return () => subscription?.remove();
     });
 
+    const isDarkMode = false;
+    const backgroundColor = isDarkMode ? "#336699" : "#ecf2f9";
+
     const screenAnim = props.screensState.anim;
     const screenOpacity = screenAnim.interpolate({ inputRange:[0, 0.5, 1], outputRange:[0, 1, 1] });
   
@@ -26,7 +29,7 @@ const WelcomeScreen = (props): Node => {
           height: windowMaxDimensions.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
-          backgroundColor: '#336699',
+          backgroundColor: backgroundColor,
           opacity: screenOpacity,
         },
     });

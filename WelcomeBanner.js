@@ -26,13 +26,8 @@ const WelcomeBanner = (props): Node => {
         setTimeout(() => {
             props.setScreens((prevScreens) => {
                 const newScreens = {...prevScreens};
-                newScreens[props.targetScreen].display = true;
-                return newScreens;
-            });
-
-            props.setScreens((prevScreens) => {
-                const newScreens = {...prevScreens};
                 newScreens.welcome.display = false;
+                newScreens[props.targetScreen].display = true;
                 return newScreens;
             });
         }, 500);

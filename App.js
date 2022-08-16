@@ -6,6 +6,7 @@
 import type {Node} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
+import { io } from "socket.io-client";
 
 import JoinScreen from './JoinScreen';
 import LobbyScreen from './LobbyScreen';
@@ -26,20 +27,38 @@ const App: () => Node = () => {
     const backgroundStyle = { backgroundColor: isDarkMode ? "#336699" : "#a2bfdd", };
 
 
-    // Show the welcome screen on load
     useEffect(() => {
-        Animated.timing(welcomeAnim, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: false,
-        }).start();
+        // Show the welcome screen
+        Animated.timing(welcomeAnim, { toValue: 1, duration: 1000, useNativeDriver: false, }).start();
+
+        // Create a socket with the server
+        ConnectSocket();
     }, []);
 
-
     function CreateGame() {
-        
+
     }
 
+    function ConnectSocket() {
+        socket = io();
+        socket.on('connect',              function()    { SocketConnected();        });
+        socket.on('disconnect',           function()    { SocketDisconnected();     });
+    
+        // All the game events we have to listen for
+        socket.on("game created",         function(msg) { GameCreated(msg);         });
+    }
+
+    function SocketConnected() {
+        alert("Connected");
+    }
+
+    function SocketDisconnected() {
+
+    }
+
+    function GameCreated(msg) {
+
+    }
 
     return (
         <SafeAreaView style={backgroundStyle}>
