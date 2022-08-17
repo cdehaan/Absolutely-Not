@@ -70,6 +70,10 @@ const App: () => Node = () => {
     }
 
     function GameCreated(msg) {
+        if(msg.success === false) {
+            console.log("Error creating game: " + msg.error);
+        }
+
         console.log("Created");
         console.log(msg);
     }

@@ -58,6 +58,33 @@ async function GenerateGame(socket, requestData){
     const playerSecret = Math.random().toString(36).slice(2).replace(/[^0-9a-z]/gi, '');
     returnData.playerSecret = playerSecret;
 
+    // Generate a random 5-letter string for the room code. If this code already exists, make another.
+    let newGameCode;
+    while (true) {
+        newGameCode = "";
+        for (let i=0; i < 5; i++) {newGameCode += String.fromCharCode(Math.floor((Math.random() * 26) + 65));}
+        const gameExistsResult = await pool.query(`SELECT count(*) AS gameCount FROM game WHERE code='${newGameCode}';`);
+        if (!gameExistsResult) {
+            returnData.error = "Couldn't check for existing game code.";
+            socket.emit('game created', JSON.stringify(returnData));
+            return;
+        }
+        if (gameExistsResult[0][0].gameCount === 0) { break; }
+    }
+    returnData.playerKey = newGameCode;
+
+
+    // Create the room in the database then put the room creator into the room
+    const gameSecret = Math.random().toString(36).slice(2).replace(/[^0-9a-z]/gi, '');
+
+    const insertGameResult = await pool.query(`INSERT INTO game (code, secret) VALUES ('${newGameCode}', '${gameSecret}');`);
+    const gameKey = insertGameResult[0].insertId;
+
+    const insertPlayerResult = await pool.query(`INSERT INTO player (name, secret, game_key) VALUES ('${playerName}', '${playerSecret}', ${gameKey});`);
+    const playerKey = insertPlayerResult[0].insertId;
+    returnData.playerKey = playerKey;
+    
+
     returnData.success = true;
     socket.emit('game created', JSON.stringify(returnData));
 }
