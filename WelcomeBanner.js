@@ -40,14 +40,16 @@ const WelcomeBanner = (props): Node => {
     const styles = StyleSheet.create({
         banner: {
             width: bannerWidth,
-            borderTopWidth: bannerBorder,
+            borderRadius: 10,
+            borderRightWidth: bannerBorder,
             borderBottomWidth: bannerBorder,
-            backgroundColor: '#fff',
+            backgroundColor: "#fff",
             alignSelf: 'center',
             overflow: 'hidden',
         },
         titleText: {
             alignSelf: 'center',
+            color: "#336",
             fontSize: windowMaxDimensions.height / 20,
         }
     });

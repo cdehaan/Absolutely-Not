@@ -1,6 +1,11 @@
 import {Node, useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, Animated, Text} from 'react-native';
 import React from 'react';
+import Header from './Header';
+import LobbyOptions from './LobbyOptions';
+import LobbyPlayers from './LobbyPlayers';
+import LobbyStart from './LobbyStart';
+import LobbyQR from './LobbyQR';
 
 const LobbyScreen = (props): Node => {
     const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
@@ -31,7 +36,7 @@ const LobbyScreen = (props): Node => {
           height: windowMaxDimensions.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
-          backgroundColor: '#339966',
+          backgroundColor: '#ecf2f9',
           opacity: screenOpacity,
         },
     });
@@ -41,7 +46,11 @@ const LobbyScreen = (props): Node => {
         contentInsetAdjustmentBehavior="automatic"
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
-            <Text>Lobby</Text>
+            <Header/>
+            <LobbyOptions/>
+            <LobbyPlayers/>
+            <LobbyStart anim={screenAnim}/>
+            <LobbyQR/>
         </Animated.View>
     );
 };
