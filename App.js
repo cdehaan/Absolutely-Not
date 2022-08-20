@@ -63,6 +63,11 @@ const App: () => Node = () => {
 
     function SocketConnected() {
         console.log("Connected");
+        setMyData(prevData => {
+            const newData = {...prevData};
+            newData.socket = socketRef.current;
+            return newData;
+        })
     }
 
     function SocketDisconnected() {
@@ -70,11 +75,12 @@ const App: () => Node = () => {
     }
 
     function GameCreated(msg) {
-        if(msg.success === false) {
-            console.log("Error creating game: " + msg.error);
-        }
+        msg = JSON.parse(msg);
+        if(msg.success === false) {console.log("Error creating game: " + msg.error);}
 
         console.log("Created");
+        delete msg.success;
+        setMyData(msg);
         console.log(msg);
     }
 

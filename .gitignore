@@ -1,5 +1,8 @@
 .env
 
+.vscode/.react
+.vscode/launch.json
+
 # OSX
 #
 .DS_Store
