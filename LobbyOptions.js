@@ -34,12 +34,6 @@ const LobbyOptions = (props): Node => {
             alignSelf: 'center',
             color: "#fff",
         },
-        debug: {
-            backgroundColor: "powderblue",
-            borderWidth: 5,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-        }
     });
 
     const optionsList = [
