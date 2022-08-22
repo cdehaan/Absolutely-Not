@@ -15,11 +15,8 @@ const LobbyOptions = (props): Node => {
         return () => subscription?.remove();
     });
 
-    /*
     const optionsAnim = props.anim;
     const optionsOpacity = optionsAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5,   1] });
-    */
-   const optionsOpacity = 1;
 
     const styles = StyleSheet.create({
         headerView: {
@@ -45,9 +42,45 @@ const LobbyOptions = (props): Node => {
         }
     });
 
+    const optionsList = [
+        {name: "Game Options", options: [
+            {text: "Private Game", id: "private"},
+            {text: "Timed Game", id: "timed"}
+        ]},
+        {name: "Question Types", options: [
+            {text: "Sexy Questions", id: "sexy"},
+            {text: "Dark Questions", id: "dark"},
+            {text: "Trivia Questions", id: "trivia"}
+        ]}
+    ];
+
+    const options = optionsList.map(category => {
+        const optionList = category.options.map(option => {
+            <Text key={option.id}>{option.text}</Text>
+        })
+
+        return(
+            <>
+            <Text key={category.name}>{category.name}</Text>
+            {optionList}
+            </>
+        )        
+    });
+    /*
+    let options = <View></View>;
+    options.push(<Text key="header">Options</Text>);
+    optionsList.forEach(category => {
+        options.push(<Text key={category.name}>{category.name}</Text>);
+        category.options.forEach((option) => {
+            options.push(<Text key={option.id}>{option.text}</Text>);
+        });    
+    });
+    options.push(</View>);
+*/
+
     return (
-        <View style={{ flex: 1}} >
-            <Text>Options</Text>
+        <View style={{ flex: 1}} >            
+            {options}
         </View>
     );
 };

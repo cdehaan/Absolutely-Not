@@ -47,7 +47,7 @@ const LobbyScreen = (props): Node => {
         style={[styles.mainView]}
         contentContainerStyle={{justifyContent: 'space-evenly'}}>
             <Header/>
-            <LobbyOptions/>
+            <LobbyOptions anim={screenAnim}/>
             <LobbyPlayers/>
             <LobbyStart anim={screenAnim}/>
             <LobbyQR/>
