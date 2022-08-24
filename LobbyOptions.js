@@ -37,25 +37,25 @@ const LobbyOptions = (props): Node => {
     });
 
     const optionsList = [
-        {name: "Game Options", options: [
-            {text: "Private Game", id: "private"},
-            {text: "Timed Game", id: "timed"}
+        {name: "Game Options", key: 1, options: [
+            {text: "Private Game", id: "private", value: false},
+            {text: "Timed Game", id: "timed", value: false}
         ]},
-        {name: "Question Types", options: [
-            {text: "Sexy Questions", id: "sexy"},
-            {text: "Dark Questions", id: "dark"},
-            {text: "Trivia Questions", id: "trivia"}
+        {name: "Question Types", key: 2, options: [
+            {text: "Sexy Questions", id: "sexy", value: false},
+            {text: "Dark Questions", id: "dark", value: false},
+            {text: "Trivia Questions", id: "trivia", value: false}
         ]}
     ];
 
     const options = optionsList.map(category => {
         const optionList = category.options.map(option => {
-            <Text key={option.id}>{option.text}</Text>
+            return(<Text key={option.id}>○⦿{option.text}</Text>);
         })
 
         return(
             <>
-            <Text key={category.name}>{category.name}</Text>
+            <Text key={category.key}>{category.name}</Text>
             {optionList}
             </>
         )        
