@@ -22,7 +22,9 @@ const App: () => Node = () => {
 
     const [screensState, setScreenState] = useState({welcome: {display: true, anim: welcomeAnim}, join: {display: false, anim: joinAnim}, lobby: {display: false, anim: lobbyAnim}});
     const [myData, setMyData] = useState({playerKey: null, name: null, secret: null, socket: null});
-    const [competitors, setCompetitors] = useState([]);
+    //const [competitors, setCompetitors] = useState([]);
+    const [competitors, setCompetitors] = useState([{playerKey: 19, name: "Dave", socket: 567}, {playerKey: 20, name: "Ryan", socket: 8910}, {playerKey: 21, name: "Andrew", socket: 1112}]);
+
 
     // reference set for socketRef using useRef hook
     const socketRef = useRef();
