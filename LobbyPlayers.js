@@ -15,15 +15,12 @@ const LobbyPlayers = (props): Node => {
         return () => subscription?.remove();
     });
 
-    /*
-    const optionsAnim = props.anim;
-    const optionsOpacity = optionsAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5,   1] });
-    */
-   const optionsOpacity = 1;
+    const playersAnim = props.anim;
+    const playersOpacity = playersAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5, 1] });
 
     const styles = StyleSheet.create({
         headerView: {
-            opacity: optionsOpacity,
+            opacity: playersOpacity,
             borderColor: '#b3cce6',
             alignSelf: 'center',
             overflow: 'hidden',
