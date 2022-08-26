@@ -60,17 +60,6 @@ const LobbyOptions = (props): Node => {
             </>
         )        
     });
-    /*
-    let options = <View></View>;
-    options.push(<Text key="header">Options</Text>);
-    optionsList.forEach(category => {
-        options.push(<Text key={category.name}>{category.name}</Text>);
-        category.options.forEach((option) => {
-            options.push(<Text key={option.id}>{option.text}</Text>);
-        });    
-    });
-    options.push(</View>);
-*/
 
     return (
         <View style={{ flex: 1}} >            
