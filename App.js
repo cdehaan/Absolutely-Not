@@ -14,7 +14,7 @@ import LobbyScreen from './LobbyScreen';
 import WelcomeScreen from './WelcomeScreen';
 
 
-export const CompetitorsContext = createContext();
+export const PlayersContext = createContext();
 
 const App: () => Node = () => {
 
@@ -23,9 +23,26 @@ const App: () => Node = () => {
     const lobbyAnim = useRef(new Animated.Value(0)).current;
 
     const [screensState, setScreenState] = useState({welcome: {display: true, anim: welcomeAnim}, join: {display: false, anim: joinAnim}, lobby: {display: false, anim: lobbyAnim}});
-    const [myData, setMyData] = useState({playerKey: null, name: null, secret: null, socket: null});
+    const [myData, setMyData] = useState();
     //const [competitors, setCompetitors] = useState([]);
-    const [competitors, setCompetitors] = useState([{playerKey: 19, name: "Dave", socket: 567}, {playerKey: 20, name: "Ryan", socket: 8910}, {playerKey: 21, name: "Andrew", socket: 1112}]);
+    //const [competitors, setCompetitors] = useState([{playerKey: 19, name: "Dave", socket: 567}, {playerKey: 20, name: "Ryan", socket: 8910}, {playerKey: 21, name: "Andrew", socket: 1112}]);
+    const [players, setPlayers] = useState({
+        me: {playerKey: null, name: null, secret: null, socket: null},
+        competitors:[
+            {playerKey: 19, name: "Dave5", socket: 567},
+            {playerKey: 20, name: "Ryan", socket: 8910},
+            {playerKey: 21, name: "Andrew", socket: 1112},
+            {playerKey: 39, name: "Dave2", socket: 5672},
+            {playerKey: 30, name: "Ryan2", socket: 89102},
+            {playerKey: 31, name: "Andrew2", socket: 11122},
+            {playerKey: 49, name: "Dave3", socket: 5673},
+            {playerKey: 40, name: "Ryan3", socket: 89103},
+            {playerKey: 41, name: "Andrew3", socket: 11123},
+            {playerKey: 59, name: "Dave4", socket: 5674},
+            {playerKey: 50, name: "Ryan4", socket: 89104},
+            {playerKey: 51, name: "Andrew4", socket: 11124},
+        ]
+    });
 
 
     // reference set for socketRef using useRef hook
@@ -67,9 +84,9 @@ const App: () => Node = () => {
 
     function SocketConnected() {
         console.log("Connected");
-        setMyData(prevData => {
+        setPlayers(prevData => {
             const newData = {...prevData};
-            newData.socket = socketRef.current;
+            newData.me.socket = socketRef.current;
             return newData;
         })
     }
@@ -82,10 +99,13 @@ const App: () => Node = () => {
         msg = JSON.parse(msg);
         if(msg.success === false) {console.log("Error creating game: " + msg.error);}
 
-        console.log("Created");
         delete msg.success;
-        setMyData(msg);
-        console.log(msg);
+        setPlayers(prevData => {
+            const newData = {...prevData};
+            newData.me = {...newData.me, ...msg};
+            return newData;
+        })
+        console.log("Created: " + msg);
     }
 
     function GameJoined(msg) {
@@ -96,11 +116,11 @@ const App: () => Node = () => {
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            <CompetitorsContext.Provider value={competitors}>
+            <PlayersContext.Provider value={players}>
                 {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} CreateGame={CreateGame} JoinGame={JoinGame} /> : null}
                 {screensState.lobby.display   ? <LobbyScreen   screensState={screensState.lobby}   setScreens={setScreenState} /> : null}
                 {screensState.join.display    ? <JoinScreen    screensState={screensState.join}    setScreens={setScreenState} /> : null}
-            </CompetitorsContext.Provider>
+            </PlayersContext.Provider>
         </SafeAreaView>
     );
 };

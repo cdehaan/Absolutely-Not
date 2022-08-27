@@ -53,10 +53,10 @@ async function GenerateGame(socket, requestData){
         return;
     }
     const playerName = requestData.playerName.substring(0,12);
-    returnData.playerName = playerName;
+    returnData.name = playerName;
 
     const playerSecret = Math.random().toString(36).slice(2).replace(/[^0-9a-z]/gi, '');
-    returnData.playerSecret = playerSecret;
+    returnData.secret = playerSecret;
 
     // Generate a random 5-letter string for the room code. If this code already exists, make another.
     let newGameCode;
@@ -101,7 +101,7 @@ async function JoinGame(socket, joinData){
     }
     const gameCode = joinData.gameCode.substring(0,12);
     const playerSecret = Math.random().toString(36).slice(2).replace(/[^0-9a-z]/gi, '');
-    returnData.playerSecret = playerSecret;
+    returnData.secret = playerSecret;
 
     returnData.success = true;
     socket.emit('game created', JSON.stringify(returnData));
