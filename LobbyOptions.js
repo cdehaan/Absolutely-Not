@@ -1,5 +1,5 @@
-import {Node, useEffect, useRef, useState} from 'react';
-import {Animated, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {Node, useEffect, useState} from 'react';
+import {Animated, StyleSheet, Text, View, Dimensions, Pressable} from 'react-native';
 import React from 'react';
 
 const LobbyOptions = (props): Node => {
@@ -14,6 +14,18 @@ const LobbyOptions = (props): Node => {
         );
         return () => subscription?.remove();
     });
+
+    const [optionsList, setOptionsList] = useState([
+        {name: "Game Options", key: 1, options: [
+            {text: "Private", id: "private", value: false},
+            {text: "Timed", id: "timed", value: false}
+        ]},
+        {name: "Question Types", key: 2, options: [
+            {text: "Sexy", id: "sexy", value: true},
+            {text: "Dark", id: "dark", value: true},
+            {text: "Trivia", id: "trivia", value: false}
+        ]}
+    ]);
 
     const optionsAnim = props.anim;
     const optionsOpacity = optionsAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5,   1] });
@@ -36,37 +48,38 @@ const LobbyOptions = (props): Node => {
         },
     });
 
-    const optionsList = [
-        {name: "Game Options", key: 1, options: [
-            {text: "Private Game", id: "private", value: false},
-            {text: "Timed Game", id: "timed", value: false}
-        ]},
-        {name: "Question Types", key: 2, options: [
-            {text: "Sexy Questions", id: "sexy", value: false},
-            {text: "Dark Questions", id: "dark", value: false},
-            {text: "Trivia Questions", id: "trivia", value: false}
-        ]}
-    ];
+    function ToggleOption(optionId) {
+        setOptionsList(prevOptionsList => {
+            const newOptionsList = [...prevOptionsList];
+            newOptionsList.forEach(category => { category.options.forEach(option => {
+                if(option.id === optionId) { option.value = !option.value; }
+            }); })
+            return newOptionsList;
+        });
+    }
 
-    const options = optionsList.map(category => {
+    const options = optionsList === undefined ? undefined : optionsList.map(category => {
         const optionList = category.options.map(option => {
-            return(<Text key={option.id}>○⦿{option.text}</Text>);
+            return(
+                <Pressable key={option.id} onPress={() => ToggleOption(option.id)}>
+                    <Text key={option.id}>{option.value === true ? "⦿" : "○"}{option.text}</Text>
+                </Pressable>
+            );
         })
 
         return(
-            <>
-            <Text key={category.key}>{category.name}</Text>
-            {optionList}
-            </>
+            <View key={category.key}>
+                <Text key={category.key}>{category.name}</Text>
+                <View style={{flexDirection: "row"}}>{optionList}</View>
+            </View>
         )        
     });
 
     return (
-        <View style={{ flex: 1}} >            
+        <View key="LobbyOptions" style={{flex: 1}} >            
             {options}
         </View>
     );
 };
   
 export default LobbyOptions;
-          
