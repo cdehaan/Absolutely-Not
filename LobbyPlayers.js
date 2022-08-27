@@ -1,6 +1,7 @@
-import {Node, useEffect, useRef, useState} from 'react';
-import {Animated, StyleSheet, Text, View, Dimensions} from 'react-native';
+import {Node, useContext, useEffect, useState} from 'react';
+import {StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
+import { CompetitorsContext } from './App';
 
 const LobbyPlayers = (props): Node => {
     const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
@@ -14,6 +15,8 @@ const LobbyPlayers = (props): Node => {
         );
         return () => subscription?.remove();
     });
+
+    const competitors = useContext(CompetitorsContext);
 
     const playersAnim = props.anim;
     const playersOpacity = playersAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5, 1] });
@@ -44,7 +47,7 @@ const LobbyPlayers = (props): Node => {
 
     return (
         <View style={{ flex: 1}} >
-            <Text>Players</Text>
+            <Text>Players: {competitors && competitors.length}</Text>
         </View>
     );
 };

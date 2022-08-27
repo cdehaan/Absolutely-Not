@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import type {Node} from 'react';
+import {createContext, Node} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 import { Text, TextInput, View, Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
 import { io } from "socket.io-client";
@@ -13,6 +13,8 @@ import JoinScreen from './JoinScreen';
 import LobbyScreen from './LobbyScreen';
 import WelcomeScreen from './WelcomeScreen';
 
+
+export const CompetitorsContext = createContext();
 
 const App: () => Node = () => {
 
@@ -94,9 +96,11 @@ const App: () => Node = () => {
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} CreateGame={CreateGame} JoinGame={JoinGame} /> : null}
-            {screensState.lobby.display   ? <LobbyScreen   screensState={screensState.lobby}   setScreens={setScreenState} /> : null}
-            {screensState.join.display    ? <JoinScreen    screensState={screensState.join}    setScreens={setScreenState} /> : null}
+            <CompetitorsContext.Provider value={competitors}>
+                {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} CreateGame={CreateGame} JoinGame={JoinGame} /> : null}
+                {screensState.lobby.display   ? <LobbyScreen   screensState={screensState.lobby}   setScreens={setScreenState} /> : null}
+                {screensState.join.display    ? <JoinScreen    screensState={screensState.join}    setScreens={setScreenState} /> : null}
+            </CompetitorsContext.Provider>
         </SafeAreaView>
     );
 };
