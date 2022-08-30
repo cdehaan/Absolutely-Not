@@ -1,5 +1,5 @@
 import {Node, useEffect, useState} from 'react';
-import {StyleSheet, Dimensions, Animated, Text} from 'react-native';
+import {StyleSheet, Dimensions, Animated} from 'react-native';
 import React from 'react';
 import Header from './Header';
 import LobbyOptions from './LobbyOptions';

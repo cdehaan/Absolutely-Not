@@ -5,9 +5,8 @@
 
 import {createContext, Node} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Text, TextInput, View, Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
+import { Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
 import { io } from "socket.io-client";
-import ChatStatus from './ChatStatus';
 
 import JoinScreen from './JoinScreen';
 import LobbyScreen from './LobbyScreen';
