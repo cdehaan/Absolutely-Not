@@ -1,5 +1,5 @@
 import {Node, useEffect, useState} from 'react';
-import {Animated, StyleSheet, Text, View, Dimensions, Pressable} from 'react-native';
+import {Animated, StyleSheet, Text, View, Dimensions, Pressable, Image} from 'react-native';
 import React from 'react';
 
 const LobbyOptions = (props): Node => {
@@ -60,11 +60,15 @@ const LobbyOptions = (props): Node => {
 
     const options = optionsList === undefined ? undefined : optionsList.map(category => {
         const optionList = category.options.map(option => {
+            const checkboxPath = option.value
+            ? require('./assets/images/Checkbox-Checked.png')
+            : require('./assets/images/Checkbox-Unchecked.png');
             return(
                 <Pressable key={option.id} onPress={() => ToggleOption(option.id)}>
-                    <Text key={option.id}>{option.value === true ? "⦿" : "○"}{option.text}</Text>
+                    <Text key={option.id}><Image source={checkboxPath} style={{height:10, width:10}} />{option.text}</Text>
                 </Pressable>
             );
+            //{option.value === true ? "⦿" : "○"}
         })
 
         return(
