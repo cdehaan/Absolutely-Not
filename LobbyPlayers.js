@@ -31,7 +31,7 @@ const LobbyPlayers = (props): Node => {
     const numColumns = 3;
 
     return (
-        <View style={{ flex: 1, backgroundColor:"#fdb"}} >
+        <View style={{ flex: 3, backgroundColor:"#fdb"}} >
             <Text>Players:</Text>
             <FlatList
                 data={playerList}
