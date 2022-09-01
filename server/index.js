@@ -43,7 +43,7 @@ io.on("connection", (socket) => {
 });
 
 async function GenerateGame(socket, requestData){
-    const returnData = {success: false};
+    const returnData = {success: false, player: {}, game: {}};
     const requiredData = ["playerName"];
 
     requestData = await SanitizeData.Check(requestData, requiredData);
@@ -53,10 +53,10 @@ async function GenerateGame(socket, requestData){
         return;
     }
     const playerName = requestData.playerName.substring(0,12);
-    returnData.name = playerName;
+    returnData.player.name = playerName;
 
     const playerSecret = Math.random().toString(36).slice(2).replace(/[^0-9a-z]/gi, '');
-    returnData.secret = playerSecret;
+    returnData.player.secret = playerSecret;
 
     // Generate a random 5-letter string for the room code. If this code already exists, make another.
     let newGameCode;
@@ -71,7 +71,7 @@ async function GenerateGame(socket, requestData){
         }
         if (gameExistsResult[0][0].gameCount === 0) { break; }
     }
-    returnData.playerKey = newGameCode;
+    returnData.game.gameCode = newGameCode;
 
 
     // Create the room in the database then put the room creator into the room
@@ -82,7 +82,7 @@ async function GenerateGame(socket, requestData){
 
     const insertPlayerResult = await pool.query(`INSERT INTO player (name, secret, game_key) VALUES ('${playerName}', '${playerSecret}', ${gameKey});`);
     const playerKey = insertPlayerResult[0].insertId;
-    returnData.playerKey = playerKey;
+    returnData.player.playerKey = playerKey;
     
 
     returnData.success = true;

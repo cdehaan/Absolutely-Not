@@ -22,7 +22,6 @@ const App: () => Node = () => {
     const lobbyAnim = useRef(new Animated.Value(0)).current;
 
     const [screensState, setScreenState] = useState({welcome: {display: true, anim: welcomeAnim}, join: {display: false, anim: joinAnim}, lobby: {display: false, anim: lobbyAnim}});
-    const [myData, setMyData] = useState();
     //const [competitors, setCompetitors] = useState([]);
     //const [competitors, setCompetitors] = useState([{playerKey: 19, name: "Dave", socket: 567}, {playerKey: 20, name: "Ryan", socket: 8910}, {playerKey: 21, name: "Andrew", socket: 1112}]);
     const [players, setPlayers] = useState({
@@ -42,6 +41,17 @@ const App: () => Node = () => {
             {playerKey: 51, name: "Andrew4", socket: 11124},
         ]
     });
+    const [game, setGame] = useState({
+        gameKey: null,
+        code: null,
+        secret: null,
+        questionKey: null,
+        revealed: null,
+        private: null,
+        active: null,
+        created: null,
+        started: null,
+    });
 
 
     // reference set for socketRef using useRef hook
@@ -52,7 +62,7 @@ const App: () => Node = () => {
 
 
     useEffect(() => {
-        // Show the welcome screen
+        // Fade in the welcome screen
         Animated.timing(welcomeAnim, { toValue: 1, duration: 1000, useNativeDriver: false, }).start();
 
         // Create a socket with the server
@@ -87,7 +97,7 @@ const App: () => Node = () => {
             const newData = {...prevData};
             newData.me.socket = socketRef.current;
             return newData;
-        })
+        });
     }
 
     function SocketDisconnected() {
@@ -101,10 +111,14 @@ const App: () => Node = () => {
         delete msg.success;
         setPlayers(prevData => {
             const newData = {...prevData};
-            newData.me = {...newData.me, ...msg};
+            newData.me = {...newData.me, ...msg.player};
             return newData;
         })
-        console.log("Created: " + msg);
+        setGame(prevData => {
+            const newData = {...prevData, ...msg.game};
+            return newData;
+        })
+        console.log(`${msg.player.name} created a game ${msg.game.gameCode}.`);
     }
 
     function GameJoined(msg) {
