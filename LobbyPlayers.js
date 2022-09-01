@@ -1,11 +1,11 @@
 import {Node, useContext, useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Dimensions, FlatList} from 'react-native';
 import React from 'react';
-import { PlayersContext } from './App';
+import { GameContext } from './App';
 import PlayerTag from './PlayerTag';
 
 const LobbyPlayers = (props): Node => {
-    const playersData = useContext(PlayersContext);
+    const playersData = useContext(GameContext).players;
 
     const playersAnim = props.anim;
     const playersOpacity = playersAnim.interpolate({ inputRange:[0, 1], outputRange:[0.5, 1] });

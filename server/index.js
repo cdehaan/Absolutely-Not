@@ -71,7 +71,7 @@ async function GenerateGame(socket, requestData){
         }
         if (gameExistsResult[0][0].gameCount === 0) { break; }
     }
-    returnData.game.gameCode = newGameCode;
+    returnData.game.code = newGameCode;
 
 
     // Create the room in the database then put the room creator into the room

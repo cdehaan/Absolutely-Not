@@ -13,7 +13,7 @@ import LobbyScreen from './LobbyScreen';
 import WelcomeScreen from './WelcomeScreen';
 
 
-export const PlayersContext = createContext();
+export const GameContext = createContext();
 
 const App: () => Node = () => {
 
@@ -129,11 +129,11 @@ const App: () => Node = () => {
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            <PlayersContext.Provider value={players}>
+            <GameContext.Provider value={{players: players, game: game}}>
                 {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} CreateGame={CreateGame} JoinGame={JoinGame} /> : null}
                 {screensState.lobby.display   ? <LobbyScreen   screensState={screensState.lobby}   setScreens={setScreenState} /> : null}
                 {screensState.join.display    ? <JoinScreen    screensState={screensState.join}    setScreens={setScreenState} /> : null}
-            </PlayersContext.Provider>
+            </GameContext.Provider>
         </SafeAreaView>
     );
 };

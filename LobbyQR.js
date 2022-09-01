@@ -1,10 +1,10 @@
-import {Node, useEffect, useRef, useState} from 'react';
+import {Node, useContext, useEffect, useRef, useState} from 'react';
 import {Animated, StyleSheet, Text, View, Dimensions} from 'react-native';
 import React from 'react';
+import { GameContext } from './App';
 
 const LobbyQR = (props): Node => {
     const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
-
     useEffect(() => {
         const subscription = Dimensions.addEventListener( "change",
         ({ window }) =>
@@ -14,6 +14,8 @@ const LobbyQR = (props): Node => {
         );
         return () => subscription?.remove();
     });
+
+    const gameData = useContext(GameContext).game;
 
     /*
     const optionsAnim = props.anim;
@@ -49,7 +51,7 @@ const LobbyQR = (props): Node => {
 
     return (
         <View style={{height: QrHeight}}>
-            <Text>QR</Text>
+            <Text>{gameData.code}</Text>
         </View>
     );
 };
