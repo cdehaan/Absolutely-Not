@@ -80,7 +80,7 @@ const LobbyOptions = (props): Node => {
     });
 
     return (
-        <View key="LobbyOptions" style={{flex: 1}} >            
+        <View key="LobbyOptions" style={{flex: 2}} >            
             {options}
         </View>
     );

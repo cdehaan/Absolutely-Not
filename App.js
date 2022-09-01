@@ -22,8 +22,9 @@ const App: () => Node = () => {
     const lobbyAnim = useRef(new Animated.Value(0)).current;
 
     const [screensState, setScreenState] = useState({welcome: {display: true, anim: welcomeAnim}, join: {display: false, anim: joinAnim}, lobby: {display: false, anim: lobbyAnim}});
-    //const [competitors, setCompetitors] = useState([]);
-    //const [competitors, setCompetitors] = useState([{playerKey: 19, name: "Dave", socket: 567}, {playerKey: 20, name: "Ryan", socket: 8910}, {playerKey: 21, name: "Andrew", socket: 1112}]);
+    //const [players, setPlayers] = useState([]);
+    const [players, setPlayers] = useState({me: {playerKey: null, name: null, secret: null, socket: null}, competitors:[{playerKey: 19, name: "Dave", socket: 567}, {playerKey: 20, name: "Ryan", socket: 8910}, {playerKey: 21, name: "Andrew", socket: 1112}]});
+    /*
     const [players, setPlayers] = useState({
         me: {playerKey: null, name: null, secret: null, socket: null},
         competitors:[
@@ -40,7 +41,7 @@ const App: () => Node = () => {
             {playerKey: 50, name: "Ryan4", socket: 89104},
             {playerKey: 51, name: "Andrew4", socket: 11124},
         ]
-    });
+    });*/
     const [game, setGame] = useState({
         gameKey: null,
         code: null,
