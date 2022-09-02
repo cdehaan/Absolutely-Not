@@ -1,18 +1,10 @@
-import {Node, useEffect, useState} from 'react';
+import {Node, useContext, useEffect, useState} from 'react';
 import {Animated, StyleSheet, Text, Dimensions, Pressable} from 'react-native';
 import React from 'react';
+import { GameContext } from './App';
 
 const WelcomeBanner = (props): Node => {
-    const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
-    useEffect(() => {
-        const subscription = Dimensions.addEventListener( "change",
-        ({ window }) =>
-            { setWindowMaxDimensions((previousWindowDimensions) =>
-                {return { width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height) }});
-            }
-        );
-        return () => subscription?.remove();
-    });
+    const windowDimensions = useContext(GameContext).windowDimensions;
 
     const bannerAnim = props.anim;
 
@@ -50,14 +42,14 @@ const WelcomeBanner = (props): Node => {
         titleText: {
             alignSelf: 'center',
             color: "#336",
-            fontSize: windowMaxDimensions.height / 20,
+            fontSize: windowDimensions.max.height / 20,
         }
     });
 
     return (
         <Animated.View style={styles.banner}>
             <Pressable onPress={() => {HideWelcome()}}>
-            <Text numberOfLines={1} ellipsizeMode='clip' style={[{minWidth: windowMaxDimensions.width*0.5}, styles.titleText]}>{props.title}</Text>
+            <Text numberOfLines={1} ellipsizeMode='clip' style={[{minWidth: windowDimensions.max.width*0.5}, styles.titleText]}>{props.title}</Text>
             </Pressable>
         </Animated.View>
     );

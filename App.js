@@ -5,7 +5,7 @@
 
 import {createContext, Node} from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
+import { Animated, Dimensions, SafeAreaView, StatusBar, useColorScheme, } from 'react-native';
 import { io } from "socket.io-client";
 
 import JoinScreen from './JoinScreen';
@@ -52,6 +52,24 @@ const App: () => Node = () => {
         active: null,
         created: null,
         started: null,
+    });
+
+    const [windowDimensions, setWindowDimensions] = useState({
+        max:     {width: Dimensions.get('window').width, height: Dimensions.get('window').height},
+        min:     {width: Dimensions.get('window').width, height: Dimensions.get('window').height},
+        current: {width: Dimensions.get('window').width, height: Dimensions.get('window').height},
+    });
+    useEffect(() => {
+        const subscription = Dimensions.addEventListener("change", ({ window }) => {
+            setWindowDimensions((previousWindowDimensions) =>
+                {return {
+                    max:     {width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height)},
+                    min:     {width: Math.min(previousWindowDimensions.width, window.width), height: Math.min(previousWindowDimensions.height, window.height)},
+                    current: {width: window.width, height: window.height},
+            }});
+            }
+        );
+        return () => subscription?.remove();
     });
 
 
@@ -119,7 +137,7 @@ const App: () => Node = () => {
             const newData = {...prevData, ...msg.game};
             return newData;
         })
-        console.log(`${msg.player.name} created a game ${msg.game.gameCode}.`);
+        console.log(`${msg.player.name} created a game ${msg.game.code}.`);
     }
 
     function GameJoined(msg) {
@@ -130,7 +148,7 @@ const App: () => Node = () => {
     return (
         <SafeAreaView style={backgroundStyle}>
             <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-            <GameContext.Provider value={{players: players, game: game}}>
+            <GameContext.Provider value={{players: players, game: game, windowDimensions: windowDimensions}}>
                 {screensState.welcome.display ? <WelcomeScreen screensState={screensState.welcome} setScreens={setScreenState} CreateGame={CreateGame} JoinGame={JoinGame} /> : null}
                 {screensState.lobby.display   ? <LobbyScreen   screensState={screensState.lobby}   setScreens={setScreenState} /> : null}
                 {screensState.join.display    ? <JoinScreen    screensState={screensState.join}    setScreens={setScreenState} /> : null}

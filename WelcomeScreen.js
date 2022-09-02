@@ -1,22 +1,18 @@
-import {Node, useEffect, useState} from 'react';
-import {StyleSheet, Dimensions, Animated} from 'react-native';
+import {Node, useContext, useEffect, useState} from 'react';
+import {StyleSheet, Dimensions, Animated, View, TextInput} from 'react-native';
 import React from 'react';
+import { GameContext } from './App';
 
 import WelcomeHeader from './WelcomeHeader';
 import WelcomeBanner from './WelcomeBanner';
 
 const WelcomeScreen = (props): Node => {
-    const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
+    const windowDimensions = useContext(GameContext).windowDimensions;
 
-    useEffect(() => {
-        const subscription = Dimensions.addEventListener( "change",
-        ({ window }) =>
-            { setWindowMaxDimensions((previousWindowDimensions) =>
-                {return { width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height) }});
-            }
-        );
-        return () => subscription?.remove();
-    });
+    const [code, setCode] = useState(null);
+    function OnChangeCode() {
+        setCode("ABCDE");
+    }
 
     const isDarkMode = false;
     const backgroundColor = isDarkMode ? "#336699" : "#ecf2f9";
@@ -26,11 +22,16 @@ const WelcomeScreen = (props): Node => {
   
     const styles = StyleSheet.create({
         mainView: {
-          height: windowMaxDimensions.height,
+          height: windowDimensions.max.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
           backgroundColor: backgroundColor,
           opacity: screenOpacity,
+        },
+        input: {
+            position: "absolute",
+            width: "80%",
+            zIndex: 10,
         },
     });
     
@@ -42,6 +43,12 @@ const WelcomeScreen = (props): Node => {
             <WelcomeHeader anim={screenAnim} start={0}   end={1}   />
             <WelcomeBanner anim={screenAnim} start={0.2} end={0.8} setScreens={props.setScreens} title='New Game'  targetScreen='lobby' BannerAction={props.CreateGame}/>
             <WelcomeBanner anim={screenAnim} start={0.4} end={1}   setScreens={props.setScreens} title='Join Game' targetScreen='join'  BannerAction={props.JoinGame}/>
+            <TextInput
+                style={styles.input}
+                onChangeText={OnChangeCode}
+                value={code}
+                placeholder="Game Code"
+            />
         </Animated.View>
     );
 };

@@ -1,19 +1,10 @@
-import {Node, useEffect, useState} from 'react';
+import {Node, useContext, useEffect, useState} from 'react';
 import {Animated, StyleSheet, Text, View, Dimensions, Pressable, Image} from 'react-native';
 import React from 'react';
+import { GameContext } from './App';
 
 const LobbyOptions = (props): Node => {
-    const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
-
-    useEffect(() => {
-        const subscription = Dimensions.addEventListener( "change",
-        ({ window }) =>
-            { setWindowMaxDimensions((previousWindowDimensions) =>
-                {return { width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height) }});
-            }
-        );
-        return () => subscription?.remove();
-    });
+    const windowDimensions = useContext(GameContext).windowDimensions;
 
     const [optionsList, setOptionsList] = useState([
         {name: "Game Options", key: 1, options: [
@@ -37,11 +28,11 @@ const LobbyOptions = (props): Node => {
             alignSelf: 'center',
             overflow: 'hidden',
             backgroundColor: '#6699cc',
-            paddingTop: windowMaxDimensions.height / 20,
-            paddingBottom: windowMaxDimensions.height / 20,
+            paddingTop: windowDimensions.max.height / 20,
+            paddingBottom: windowDimensions.max.height / 20,
         },
         headerText: {
-            fontSize: windowMaxDimensions.height / 15,
+            fontSize: windowDimensions.max.height / 15,
             fontFamily: 'DancingScript-Bold',
             alignSelf: 'center',
             color: "#fff",

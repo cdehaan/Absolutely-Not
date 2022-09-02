@@ -1,25 +1,17 @@
-import {Node, useEffect, useState} from 'react';
+import {Node, useContext, useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, Animated, Text} from 'react-native';
 import React from 'react';
+import { GameContext } from './App';
 
 const JoinScreen = (props): Node => {
-    const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
-    useEffect(() => {
-        const subscription = Dimensions.addEventListener( "change",
-        ({ window }) =>
-            { setWindowMaxDimensions((previousWindowDimensions) =>
-                {return { width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height) }});
-            }
-        );
-        return () => subscription?.remove();
-    });
+    const windowDimensions = useContext(GameContext).windowDimensions;
 
     const screenAnim = props.screensState.anim;
     const screenOpacity = screenAnim.interpolate({ inputRange:[0, 0.5, 1], outputRange:[0, 1, 1] });
   
     const styles = StyleSheet.create({
         mainView: {
-          height: windowMaxDimensions.height,
+          height: windowDimensions.max.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
           backgroundColor: '#996633',

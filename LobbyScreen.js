@@ -1,4 +1,4 @@
-import {Node, useEffect, useState} from 'react';
+import {Node, useContext, useEffect, useState} from 'react';
 import {StyleSheet, Dimensions, Animated} from 'react-native';
 import React from 'react';
 import Header from './Header';
@@ -6,18 +6,10 @@ import LobbyOptions from './LobbyOptions';
 import LobbyPlayers from './LobbyPlayers';
 import LobbyStart from './LobbyStart';
 import LobbyQR from './LobbyQR';
+import { GameContext } from './App';
 
 const LobbyScreen = (props): Node => {
-    const [windowMaxDimensions, setWindowMaxDimensions] = useState({width: Dimensions.get('window').width, height: Dimensions.get('window').height});
-    useEffect(() => {
-        const subscription = Dimensions.addEventListener( "change",
-        ({ window }) =>
-            { setWindowMaxDimensions((previousWindowDimensions) =>
-                {return { width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height) }});
-            }
-        );
-        return () => subscription?.remove();
-    });
+    const windowDimensions = useContext(GameContext).windowDimensions;
 
     // Fade in screen when component first rendered
     const screenAnim = props.screensState.anim;
@@ -33,7 +25,7 @@ const LobbyScreen = (props): Node => {
 
     const styles = StyleSheet.create({
         mainView: {
-          height: windowMaxDimensions.height,
+          height: windowDimensions.max.height,
           overflow: 'hidden',
           justifyContent: 'space-evenly',
           backgroundColor: '#ecf2f9',
