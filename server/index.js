@@ -104,6 +104,6 @@ async function JoinGame(socket, joinData){
     returnData.secret = playerSecret;
 
     returnData.success = true;
-    socket.emit('game created', JSON.stringify(returnData));
+    socket.emit('game joined', JSON.stringify(returnData));
 }
 
