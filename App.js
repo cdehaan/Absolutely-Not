@@ -61,14 +61,14 @@ const App: () => Node = () => {
     });
     useEffect(() => {
         const subscription = Dimensions.addEventListener("change", ({ window }) => {
-            setWindowDimensions((previousWindowDimensions) =>
-                {return {
+            setWindowDimensions((previousWindowDimensions) => {
+                return {
                     max:     {width: Math.max(previousWindowDimensions.width, window.width), height: Math.max(previousWindowDimensions.height, window.height)},
                     min:     {width: Math.min(previousWindowDimensions.width, window.width), height: Math.min(previousWindowDimensions.height, window.height)},
                     current: {width: window.width, height: window.height},
-            }});
-            }
-        );
+                }
+            });
+        });
         return () => subscription?.remove();
     });
 
